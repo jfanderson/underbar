@@ -210,10 +210,7 @@
         iterator = _.identity;
     }
     return !_.every(collection, function(item) {
-      if (iterator(item)) {
-        return false;
-      }
-      return true;
+      return !iterator(item);
     })
   };
 
