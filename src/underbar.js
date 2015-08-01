@@ -470,5 +470,26 @@
   //
   // Note: This is difficult! It may take a while to implement.
   _.throttle = function(func, wait) {
+    var invokable = true;
+    var lastCall;
+
+    var startTimer = function() {
+      setTimeout(function() {
+        invokable = true;
+      }, wait);
+    }
+
+    return function () {
+      if (invokable) {
+        var args = Array.prototype.slice.call(arguments, 0);
+        var result = func.apply(this, args);
+        lastCall = result;
+        invokable = false;
+        startTimer();
+        return result;
+      } else {
+        return lastCall;
+      }
+    } 
   };
 }());
