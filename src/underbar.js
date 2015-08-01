@@ -449,6 +449,19 @@
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
   _.difference = function(array) {
+    var arrays = Array.prototype.slice.call(arguments, 1);
+    var result = [];
+    _.each(arguments[0], function(item) {
+      if (_.every(arrays, function(array) {
+        if (_.indexOf(array, item) === -1) {  // only line changed from intersection()
+          return true;
+        }
+        return false;
+      })) {
+        result.push(item);
+      }
+    })
+    return result;
   };
 
   // Returns a function, that, when invoked, will only be triggered at most once
