@@ -386,6 +386,7 @@
   // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
   _.zip = function() {
     var arrays = Array.prototype.slice.call(arguments, 0);
+    // find max array length
     var len = _.reduce(arrays, function(maxLen, arr) {
       if (arr.length > maxLen) {
         return arr.length;
@@ -393,6 +394,7 @@
       return maxLen;
     }, 0);
 
+    // create zipped array
     var zipped = [];
     for (var i = 0; i < len; i++) {
       var element = [];
@@ -409,6 +411,21 @@
   //
   // Hint: Use Array.isArray to check if something is an array
   _.flatten = function(nestedArray, result) {
+    var result = [];
+
+    // recursive function
+    var dive = function(array) {
+      for (var i = 0; i < array.length; i++) {
+        if (Array.isArray(array[i])) {
+          dive(array[i]);
+        } else {
+          result.push(array[i]);
+        }
+      }
+    }
+    dive(nestedArray);
+
+    return result;
   };
 
   // Takes an arbitrary number of arrays and produces an array that contains
